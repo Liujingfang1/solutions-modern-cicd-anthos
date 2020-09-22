@@ -3,11 +3,10 @@ kind: ConfigManagement
 metadata:
   name: config-management
 spec:
+  channel: cs
   # clusterName is required and must be unique among all managed clusters
   clusterName: ${CONTEXT}
+  enableMultiRepo: true
+  enableLegacyFields: false
   policyController:
     enabled: true
-  git:
-    syncRepo: git@${GITLAB_HOSTNAME}:platform-admins/anthos-config-management.git
-    syncBranch: master
-    secretType: ssh

@@ -277,14 +277,35 @@ If you want to add another cluster (like asia-east1 in the above screenshots), r
    metadata:
      name: config-management
    spec:
+     channel: cs
      # clusterName is required and must be unique among all managed clusters
      clusterName: $SHORT_CLUSTERNAME
-     git:
-       syncRepo: git@$GITLAB_HOSTNAME:platform-admins/anthos-config-management.git
-       syncBranch: master
-       secretType: ssh
+     enableMultiRepo: true
+     enableLegacyFields: false
      policyController:
        enabled: true
+   EOF
+   ```
+
+1. Create a Root Sync configuration for your cluster
+
+   ```shell
+   export NEW_REGION="asia-east1"
+   export SHORT_CLUSTERNAME="prod-${NEW_REGION}"
+   cat > root-sync.yaml <<EOF
+   apiVersion: configsync.gke.io/v1alpha1
+   kind: RootSync
+   metadata:
+     name: root-sync
+     namespace: config-management-system
+   spec:
+     sourceFormat: hierarchy
+     git:
+       repo: git@$GITLAB_HOSTNAME:platform-admins/anthos-config-management.git
+       branch: master
+       auth: ssh
+       secretRef:
+         name: git-creds
    EOF
    ```
   
@@ -292,6 +313,7 @@ If you want to add another cluster (like asia-east1 in the above screenshots), r
 
     ```shell
     kubectl apply -f config-management.yaml
+    kubectl apply -f root-sync.yaml
     ```
   
 1. Check the status of the installation with the following command. Your cluster should now be synced.
@@ -409,31 +431,7 @@ If you want to add another cluster (like asia-east1 in the above screenshots), r
     git push origin master
     ```
 
-1. Add the new cluster to the Shared CI/CD configuration repo:
-
-    ```shell
-    cd platform-admins/shared-ci-cd
-    export NEW_REGION="asia-east1"
-    cat >> cd/gke-deploy.yaml <<EOF
-    deploy-prod-$NEW_REGION:
-      # Only deploy when running on master in $APP-env
-      only:
-        refs:
-          - master
-      stage: deploy-prod-$NEW_REGION
-      image: gcr.io/cloud-builders/gke-deploy:stable
-      tags:
-      - cluster:prod-$NEW_REGION
-      script:
-        # Work around for https://github.com/kubernetes/kubernetes/issues/36072
-        # Stated solution is to use "--force" or "kubectl create"; gke-deploy does not have this option so the following works
-        # Get all services that have the "kubectl.kubernetes.io/last-applied-configuration" annotation and put into an environment variable
-        - export SERVICENAMES=$(kubectl get svc -o jsonpath="{range .items[?(@.metadata.annotations.kubectl\.kubernetes\.io/last-applied-configuration)]}{.metadata.name}{':'}{end}")
-        # for each service name, remove the annotation
-        - echo $SERVICENAMES | tr -d '\n' | tr ':' '\0' | xargs -0 -I {} kubectl annotate svc {} kubectl.kubernetes.io/last-applied-configuration-
-        - /gke-deploy run --filename prod.yaml
-    EOF
-    ```
+TODO: Changing the following two steps to `appctl` commands.
 
 1. Now make similar changes in your `$APP_NAME-env` repo. This time we're going to make our changes in the `staging` branch, which already was created when we made our app above.
 

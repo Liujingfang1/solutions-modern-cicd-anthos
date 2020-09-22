@@ -51,6 +51,9 @@ for CONTEXT in ${CLUSTERS}; do
     cat config-management.yaml.tpl | envsubst > config-management-${CONTEXT}.yaml
     kubectl apply -f config-management-${CONTEXT}.yaml
     rm config-management-${CONTEXT}.yaml
+    cat root-repo.yaml.tpl | envsubst > root-repo-${CONTEXT}.yaml
+    kubectl apply -f root-repo-${CONTEXT}.yaml
+    rm root-repo-${CONTEXT}.yaml
   # Runner is already installed, make sure the token is up to date
   # If not up to date, re-create the secret and restart the runner pod
   else
