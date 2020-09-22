@@ -1,0 +1,106 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitlab-runner-config-acm
+  annotations:
+    configmanagement.gke.io/cluster-selector: prod-us-central1
+data:
+  CI_SERVER_URL: https://GITLAB_HOSTNAME
+  CLONE_URL: ""
+  KUBERNETES_CPU_LIMIT: ""
+  KUBERNETES_CPU_REQUEST: ""
+  KUBERNETES_HELPER_CPU_LIMIT: ""
+  KUBERNETES_HELPER_CPU_REQUEST: ""
+  KUBERNETES_HELPER_IMAGE: ""
+  KUBERNETES_HELPER_MEMORY_LIMIT: ""
+  KUBERNETES_HELPER_MEMORY_REQUEST: ""
+  KUBERNETES_IMAGE: ubuntu:16.04
+  KUBERNETES_MEMORY_LIMIT: ""
+  KUBERNETES_MEMORY_REQUEST: ""
+  KUBERNETES_NAMESPACE: acm-tests
+  KUBERNETES_PULL_POLICY: ""
+  KUBERNETES_SERVICE_ACCOUNT: ""
+  KUBERNETES_SERVICE_CPU_LIMIT: ""
+  KUBERNETES_SERVICE_CPU_REQUEST: ""
+  KUBERNETES_SERVICE_MEMORY_LIMIT: ""
+  KUBERNETES_SERVICE_MEMORY_REQUEST: ""
+  REGISTER_LOCKED: "true"
+  RUNNER_EXECUTOR: kubernetes
+  RUNNER_REQUEST_CONCURRENCY: "1"
+  RUNNER_TAG_LIST: app:acm-tests, cluster:prod-us-central1
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitlab-runner-config-acm
+  annotations:
+    configmanagement.gke.io/cluster-selector: prod-us-east1
+data:
+  CI_SERVER_URL: https://GITLAB_HOSTNAME
+  CLONE_URL: ""
+  KUBERNETES_CPU_LIMIT: ""
+  KUBERNETES_CPU_REQUEST: ""
+  KUBERNETES_HELPER_CPU_LIMIT: ""
+  KUBERNETES_HELPER_CPU_REQUEST: ""
+  KUBERNETES_HELPER_IMAGE: ""
+  KUBERNETES_HELPER_MEMORY_LIMIT: ""
+  KUBERNETES_HELPER_MEMORY_REQUEST: ""
+  KUBERNETES_IMAGE: ubuntu:16.04
+  KUBERNETES_MEMORY_LIMIT: ""
+  KUBERNETES_MEMORY_REQUEST: ""
+  KUBERNETES_NAMESPACE: acm-tests
+  KUBERNETES_PULL_POLICY: ""
+  KUBERNETES_SERVICE_ACCOUNT: ""
+  KUBERNETES_SERVICE_CPU_LIMIT: ""
+  KUBERNETES_SERVICE_CPU_REQUEST: ""
+  KUBERNETES_SERVICE_MEMORY_LIMIT: ""
+  KUBERNETES_SERVICE_MEMORY_REQUEST: ""
+  REGISTER_LOCKED: "true"
+  RUNNER_EXECUTOR: kubernetes
+  RUNNER_REQUEST_CONCURRENCY: "1"
+  RUNNER_TAG_LIST: app:acm-tests, cluster:prod-us-east1
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitlab-runner-config-acm
+  annotations:
+    configmanagement.gke.io/cluster-selector: staging-us-west2
+data:
+  CI_SERVER_URL: https://GITLAB_HOSTNAME
+  CLONE_URL: ""
+  KUBERNETES_CPU_LIMIT: ""
+  KUBERNETES_CPU_REQUEST: ""
+  KUBERNETES_HELPER_CPU_LIMIT: ""
+  KUBERNETES_HELPER_CPU_REQUEST: ""
+  KUBERNETES_HELPER_IMAGE: ""
+  KUBERNETES_HELPER_MEMORY_LIMIT: ""
+  KUBERNETES_HELPER_MEMORY_REQUEST: ""
+  KUBERNETES_IMAGE: ubuntu:16.04
+  KUBERNETES_MEMORY_LIMIT: ""
+  KUBERNETES_MEMORY_REQUEST: ""
+  KUBERNETES_NAMESPACE: acm-tests
+  KUBERNETES_PULL_POLICY: ""
+  KUBERNETES_SERVICE_ACCOUNT: ""
+  KUBERNETES_SERVICE_CPU_LIMIT: ""
+  KUBERNETES_SERVICE_CPU_REQUEST: ""
+  KUBERNETES_SERVICE_MEMORY_LIMIT: ""
+  KUBERNETES_SERVICE_MEMORY_REQUEST: ""
+  REGISTER_LOCKED: "true"
+  RUNNER_EXECUTOR: kubernetes
+  RUNNER_REQUEST_CONCURRENCY: "1"
+  RUNNER_TAG_LIST: app:acm-tests, cluster:staging-us-west2
